@@ -18,10 +18,15 @@
       margin-top: 40px;
     }
 
+    .title-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
     .subtle {
       color: gray;
       font-size: 0.9em;
-      margin-left: 10px;
     }
 
     .edit-title {
@@ -32,10 +37,10 @@
 </head>
 <body>
 
-  <h2>
-    📌 2-6 일정
+  <div class="title-bar">
+    <h2>📌 2-6 일정</h2>
     <span class="subtle">by helloworld537</span>
-  </h2>
+  </div>
 
   <div id="display-text">이곳에 표시될 텍스트입니다.</div>
 
@@ -71,7 +76,7 @@
     function saveText() {
       const newText = document.getElementById("edit-text").value;
       document.getElementById("display-text").innerText = newText;
-      alert("텍스트가 저장되었습니다.");
+      alert("✅ 텍스트가 저장되었습니다.");
     }
   </script>
 
