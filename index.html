@@ -94,11 +94,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr><td><input type="text" id="date-0" value="6월 12일" /></td><td><textarea id="edit-0" rows="2"></textarea></td></tr>
-        <tr><td><input type="text" id="date-1" value="6월 13일" /></td><td><textarea id="edit-1" rows="2"></textarea></td></tr>
-        <tr><td><input type="text" id="date-2" value="6월 14일" /></td><td><textarea id="edit-2" rows="2"></textarea></td></tr>
-        <tr><td><input type="text" id="date-3" value="6월 15일" /></td><td><textarea id="edit-3" rows="2"></textarea></td></tr>
-        <tr><td><input type="text" id="date-4" value="6월 16일" /></td><td><textarea id="edit-4" rows="2"></textarea></td></tr>
+        <tr><td><input type="text" id="date-0" value="6월 12일" /></td><td><textarea id="edit-0" rows="2" placeholder="일정 입력"></textarea></td></tr>
+        <tr><td><input type="text" id="date-1" value="6월 13일" /></td><td><textarea id="edit-1" rows="2" placeholder="일정 입력"></textarea></td></tr>
+        <tr><td><input type="text" id="date-2" value="6월 14일" /></td><td><textarea id="edit-2" rows="2" placeholder="일정 입력"></textarea></td></tr>
+        <tr><td><input type="text" id="date-3" value="6월 15일" /></td><td><textarea id="edit-3" rows="2" placeholder="일정 입력"></textarea></td></tr>
+        <tr><td><input type="text" id="date-4" value="6월 16일" /></td><td><textarea id="edit-4" rows="2" placeholder="일정 입력"></textarea></td></tr>
         <tr><td><strong>이후 일정</strong></td><td><textarea id="edit-extra" rows="3" placeholder="6월 17일 이후 일정 입력"></textarea></td></tr>
       </tbody>
     </table>
@@ -133,15 +133,14 @@
         section.appendChild(block);
       });
 
-      // 이후 일정
-      const block = document.createElement("div");
-      block.className = "schedule-block";
-      block.innerHTML = `
+      const extraBlock = document.createElement("div");
+      extraBlock.className = "schedule-block";
+      extraBlock.innerHTML = `
         <strong>이후 일정</strong>
         <button class="toggle-button" onclick="toggleDisplay('extra')">▶</button>
         <div class="content" id="display-extra">${extraSchedule || "내용 없음"}</div>
       `;
-      section.appendChild(block);
+      section.appendChild(extraBlock);
     }
 
     function toggleDisplay(index) {
