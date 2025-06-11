@@ -20,15 +20,6 @@
       font-size: 0.9em;
     }
 
-    #password-section {
-      margin-top: 40px;
-    }
-
-    .edit-title {
-      font-size: 16px;
-      font-weight: bold;
-    }
-
     .schedule-block {
       margin-bottom: 20px;
     }
@@ -44,6 +35,34 @@
       padding-left: 10px;
       border-left: 2px solid #ccc;
     }
+
+    #password-section {
+      margin-top: 40px;
+    }
+
+    .edit-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 40px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #aaa;
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    textarea, input[type="text"] {
+      width: 100%;
+      box-sizing: border-box;
+    }
   </style>
 </head>
 <body>
@@ -53,34 +72,8 @@
     <span class="subtle">by helloworld537</span>
   </div>
 
-  <!-- 표시되는 일정들 -->
-  <div id="display-section">
-    <div class="schedule-block">
-      <strong>6월 12일</strong>
-      <button class="toggle-button" onclick="toggleDisplay(0)">▶</button>
-      <div class="content" id="display-0">일정 없음</div>
-    </div>
-    <div class="schedule-block">
-      <strong>6월 13일</strong>
-      <button class="toggle-button" onclick="toggleDisplay(1)">▶</button>
-      <div class="content" id="display-1">일정 없음</div>
-    </div>
-    <div class="schedule-block">
-      <strong>6월 14일</strong>
-      <button class="toggle-button" onclick="toggleDisplay(2)">▶</button>
-      <div class="content" id="display-2">일정 없음</div>
-    </div>
-    <div class="schedule-block">
-      <strong>6월 15일</strong>
-      <button class="toggle-button" onclick="toggleDisplay(3)">▶</button>
-      <div class="content" id="display-3">일정 없음</div>
-    </div>
-    <div class="schedule-block">
-      <strong>6월 16일</strong>
-      <button class="toggle-button" onclick="toggleDisplay(4)">▶</button>
-      <div class="content" id="display-4">일정 없음</div>
-    </div>
-  </div>
+  <!-- 일정 표시 영역 -->
+  <div id="display-section"></div>
 
   <!-- 비밀번호 입력 -->
   <div id="password-section">
@@ -90,43 +83,67 @@
     <p id="message" style="color:red;"></p>
   </div>
 
-  <!-- 편집 섹션 -->
+  <!-- 편집 섹션 (표 형태) -->
   <div id="edit-section" style="display:none;">
     <h3 class="edit-title">✏️ 일정 편집</h3>
-    <p>날짜별로 일정을 입력하세요.</p>
-    <textarea id="edit-0" rows="2" cols="50" placeholder="6월 12일 일정"></textarea><br>
-    <textarea id="edit-1" rows="2" cols="50" placeholder="6월 13일 일정"></textarea><br>
-    <textarea id="edit-2" rows="2" cols="50" placeholder="6월 14일 일정"></textarea><br>
-    <textarea id="edit-3" rows="2" cols="50" placeholder="6월 15일 일정"></textarea><br>
-    <textarea id="edit-4" rows="2" cols="50" placeholder="6월 16일 일정"></textarea><br>
+    <table>
+      <thead>
+        <tr>
+          <th>날짜</th>
+          <th>일정</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="text" id="date-0" value="6월 12일"></td>
+          <td><textarea id="edit-0" rows="2" placeholder="일정 입력"></textarea></td>
+        </tr>
+        <tr>
+          <td><input type="text" id="date-1" value="6월 13일"></td>
+          <td><textarea id="edit-1" rows="2" placeholder="일정 입력"></textarea></td>
+        </tr>
+        <tr>
+          <td><input type="text" id="date-2" value="6월 14일"></td>
+          <td><textarea id="edit-2" rows="2" placeholder="일정 입력"></textarea></td>
+        </tr>
+        <tr>
+          <td><input type="text" id="date-3" value="6월 15일"></td>
+          <td><textarea id="edit-3" rows="2" placeholder="일정 입력"></textarea></td>
+        </tr>
+        <tr>
+          <td><input type="text" id="date-4" value="6월 16일"></td>
+          <td><textarea id="edit-4" rows="2" placeholder="일정 입력"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
     <button onclick="saveText()">저장</button>
   </div>
 
   <script>
     const correctPassword = "1234";
 
-    function checkPassword() {
-      const input = document.getElementById("password-input").value;
-      const message = document.getElementById("message");
+    const schedules = [
+      { date: "6월 12일", content: "" },
+      { date: "6월 13일", content: "" },
+      { date: "6월 14일", content: "" },
+      { date: "6월 15일", content: "" },
+      { date: "6월 16일", content: "" }
+    ];
 
-      if (input === correctPassword) {
-        document.getElementById("edit-section").style.display = "block";
-        for (let i = 0; i < 5; i++) {
-          const current = document.getElementById(`display-${i}`).innerText;
-          document.getElementById(`edit-${i}`).value = current !== "일정 없음" ? current : "";
-        }
-        message.textContent = "";
-      } else {
-        message.textContent = "❌ 비밀번호가 틀렸습니다.";
-      }
-    }
-
-    function saveText() {
-      for (let i = 0; i < 5; i++) {
-        const content = document.getElementById(`edit-${i}`).value.trim();
-        document.getElementById(`display-${i}`).innerText = content ? content : "일정 없음";
-      }
-      alert("✅ 일정이 저장되었습니다.");
+    function renderDisplay() {
+      const section = document.getElementById("display-section");
+      section.innerHTML = "";
+      schedules.forEach((s, i) => {
+        const block = document.createElement("div");
+        block.className = "schedule-block";
+        block.innerHTML = `
+          <strong>${s.date}</strong>
+          <button class="toggle-button" onclick="toggleDisplay(${i})">▶</button>
+          <div class="content" id="display-${i}">${s.content || "일정 없음"}</div>
+        `;
+        section.appendChild(block);
+      });
     }
 
     function toggleDisplay(index) {
@@ -140,6 +157,36 @@
         btn.innerText = "▼";
       }
     }
+
+    function checkPassword() {
+      const input = document.getElementById("password-input").value;
+      const message = document.getElementById("message");
+
+      if (input === correctPassword) {
+        document.getElementById("edit-section").style.display = "block";
+        schedules.forEach((s, i) => {
+          document.getElementById(`date-${i}`).value = s.date;
+          document.getElementById(`edit-${i}`).value = s.content;
+        });
+        message.textContent = "";
+      } else {
+        message.textContent = "❌ 비밀번호가 틀렸습니다.";
+      }
+    }
+
+    function saveText() {
+      schedules.forEach((s, i) => {
+        const date = document.getElementById(`date-${i}`).value.trim();
+        const content = document.getElementById(`edit-${i}`).value.trim();
+        s.date = date || `날짜 없음 ${i + 1}`;
+        s.content = content;
+      });
+      renderDisplay();
+      alert("✅ 일정이 저장되었습니다.");
+    }
+
+    // 초기 표시
+    renderDisplay();
   </script>
 
 </body>
