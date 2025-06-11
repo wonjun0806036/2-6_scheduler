@@ -9,15 +9,6 @@
       margin: 30px;
     }
 
-    #edit-section {
-      display: none;
-      margin-top: 20px;
-    }
-
-    #password-section {
-      margin-top: 40px;
-    }
-
     .title-bar {
       display: flex;
       align-items: center;
@@ -29,9 +20,29 @@
       font-size: 0.9em;
     }
 
+    #password-section {
+      margin-top: 40px;
+    }
+
     .edit-title {
       font-size: 16px;
       font-weight: bold;
+    }
+
+    .schedule-block {
+      margin-bottom: 20px;
+    }
+
+    .toggle-button {
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    .content {
+      display: none;
+      margin-top: 5px;
+      padding-left: 10px;
+      border-left: 2px solid #ccc;
     }
   </style>
 </head>
@@ -42,8 +53,36 @@
     <span class="subtle">by helloworld537</span>
   </div>
 
-  <div id="display-text">이곳에 표시될 텍스트입니다.</div>
+  <!-- 표시되는 일정들 -->
+  <div id="display-section">
+    <div class="schedule-block">
+      <strong>6월 12일</strong>
+      <button class="toggle-button" onclick="toggleDisplay(0)">▶</button>
+      <div class="content" id="display-0">일정 없음</div>
+    </div>
+    <div class="schedule-block">
+      <strong>6월 13일</strong>
+      <button class="toggle-button" onclick="toggleDisplay(1)">▶</button>
+      <div class="content" id="display-1">일정 없음</div>
+    </div>
+    <div class="schedule-block">
+      <strong>6월 14일</strong>
+      <button class="toggle-button" onclick="toggleDisplay(2)">▶</button>
+      <div class="content" id="display-2">일정 없음</div>
+    </div>
+    <div class="schedule-block">
+      <strong>6월 15일</strong>
+      <button class="toggle-button" onclick="toggleDisplay(3)">▶</button>
+      <div class="content" id="display-3">일정 없음</div>
+    </div>
+    <div class="schedule-block">
+      <strong>6월 16일</strong>
+      <button class="toggle-button" onclick="toggleDisplay(4)">▶</button>
+      <div class="content" id="display-4">일정 없음</div>
+    </div>
+  </div>
 
+  <!-- 비밀번호 입력 -->
   <div id="password-section">
     <h3>🔒 비밀번호</h3>
     <input type="password" id="password-input" placeholder="비밀번호 입력" />
@@ -51,9 +90,15 @@
     <p id="message" style="color:red;"></p>
   </div>
 
-  <div id="edit-section">
+  <!-- 편집 섹션 -->
+  <div id="edit-section" style="display:none;">
     <h3 class="edit-title">✏️ 일정 편집</h3>
-    <textarea id="edit-text" rows="5" cols="50"></textarea><br>
+    <p>날짜별로 일정을 입력하세요.</p>
+    <textarea id="edit-0" rows="2" cols="50" placeholder="6월 12일 일정"></textarea><br>
+    <textarea id="edit-1" rows="2" cols="50" placeholder="6월 13일 일정"></textarea><br>
+    <textarea id="edit-2" rows="2" cols="50" placeholder="6월 14일 일정"></textarea><br>
+    <textarea id="edit-3" rows="2" cols="50" placeholder="6월 15일 일정"></textarea><br>
+    <textarea id="edit-4" rows="2" cols="50" placeholder="6월 16일 일정"></textarea><br>
     <button onclick="saveText()">저장</button>
   </div>
 
@@ -66,7 +111,10 @@
 
       if (input === correctPassword) {
         document.getElementById("edit-section").style.display = "block";
-        document.getElementById("edit-text").value = document.getElementById("display-text").innerText;
+        for (let i = 0; i < 5; i++) {
+          const current = document.getElementById(`display-${i}`).innerText;
+          document.getElementById(`edit-${i}`).value = current !== "일정 없음" ? current : "";
+        }
         message.textContent = "";
       } else {
         message.textContent = "❌ 비밀번호가 틀렸습니다.";
@@ -74,9 +122,23 @@
     }
 
     function saveText() {
-      const newText = document.getElementById("edit-text").value;
-      document.getElementById("display-text").innerText = newText;
-      alert("✅ 텍스트가 저장되었습니다.");
+      for (let i = 0; i < 5; i++) {
+        const content = document.getElementById(`edit-${i}`).value.trim();
+        document.getElementById(`display-${i}`).innerText = content ? content : "일정 없음";
+      }
+      alert("✅ 일정이 저장되었습니다.");
+    }
+
+    function toggleDisplay(index) {
+      const content = document.getElementById(`display-${index}`);
+      const btn = content.previousElementSibling;
+      if (content.style.display === "block") {
+        content.style.display = "none";
+        btn.innerText = "▶";
+      } else {
+        content.style.display = "block";
+        btn.innerText = "▼";
+      }
     }
   </script>
 
