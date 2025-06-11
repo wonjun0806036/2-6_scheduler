@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>비밀번호 보호 텍스트</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 30px;
+    }
+    #edit-section {
+      display: none;
+      margin-top: 20px;
+    }
+    #password-section {
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>📌 현재 내용</h2>
+  <div id="display-text">이곳에 표시될 텍스트입니다.</div>
+
+  <div id="password-section">
+    <h3>🔒 편집하려면 비밀번호를 입력하세요</h3>
+    <input type="password" id="password-input" placeholder="비밀번호 입력" />
+    <button onclick="checkPassword()">확인</button>
+    <p id="message" style="color:red;"></p>
+  </div>
+
+  <div id="edit-section">
+    <h3>✏️ 텍스트 편집</h3>
+    <textarea id="edit-text" rows="5" cols="50"></textarea><br>
+    <button onclick="saveText()">저장</button>
+  </div>
+
+  <script>
+    const correctPassword = "1234";
+
+    function checkPassword() {
+      const input = document.getElementById("password-input").value;
+      const message = document.getElementById("message");
+
+      if (input === correctPassword) {
+        document.getElementById("edit-section").style.display = "block";
+        document.getElementById("edit-text").value = document.getElementById("display-text").innerText;
+        message.textContent = "";
+      } else {
+        message.textContent = "❌ 비밀번호가 틀렸습니다.";
+      }
+    }
+
+    function saveText() {
+      const newText = document.getElementById("edit-text").value;
+      document.getElementById("display-text").innerText = newText;
+      alert("✅ 텍스트가 저장되었습니다.");
+    }
+  </script>
+
+</body>
+</html>
