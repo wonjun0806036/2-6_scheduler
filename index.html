@@ -68,7 +68,7 @@
 <body>
 
   <div class="title-bar">
-    <h2>📌 2-6 일정</h2>
+    <h2>2-6 일정</h2>
     <span class="subtle">by helloworld537</span>
   </div>
 
@@ -77,7 +77,7 @@
 
   <!-- 비밀번호 입력 -->
   <div id="password-section">
-    <h3>🔒 비밀번호</h3>
+    <h3>비밀번호(수정시시)</h3>
     <input type="password" id="password-input" placeholder="비밀번호 입력" />
     <button onclick="checkPassword()">확인</button>
     <p id="message" style="color:red;"></p>
@@ -168,7 +168,7 @@
         document.getElementById("edit-extra").value = extraSchedule;
         message.textContent = "";
       } else {
-        message.textContent = "❌ 비밀번호가 틀렸습니다.";
+        message.textContent = "비밀번호가 틀렸습니다.";
       }
     }
 
@@ -179,7 +179,7 @@
       });
       extraSchedule = document.getElementById("edit-extra").value.trim();
       renderDisplay();
-      alert("✅ 일정이 저장되었습니다.");
+      alert("일정이 저장되었습니다.");
     }
 
     renderDisplay();
