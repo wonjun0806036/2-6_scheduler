@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>2-6 일정</title>
   <style>
     body {
@@ -75,13 +75,6 @@
   <!-- 일정 표시 영역 -->
   <div id="display-section"></div>
 
-  <!-- 이후 일정 표시 -->
-  <div class="schedule-block">
-    <strong>이후 일정</strong>
-    <button class="toggle-button" onclick="toggleDisplay('extra')">▶</button>
-    <div class="content" id="display-extra">내용 없음</div>
-  </div>
-
   <!-- 비밀번호 입력 -->
   <div id="password-section">
     <h3>🔒 비밀번호</h3>
@@ -90,7 +83,7 @@
     <p id="message" style="color:red;"></p>
   </div>
 
-  <!-- 편집 섹션 (표 포함) -->
+  <!-- 편집 섹션 -->
   <div id="edit-section" style="display:none;">
     <h3 class="edit-title">✏️ 일정 편집</h3>
     <table>
@@ -101,18 +94,12 @@
         </tr>
       </thead>
       <tbody>
-        <!-- 날짜별 일정 -->
-        <tr><td><input type="text" id="date-0" value="6월 12일"></td><td><textarea id="edit-0" rows="2"></textarea></td></tr>
-        <tr><td><input type="text" id="date-1" value="6월 13일"></td><td><textarea id="edit-1" rows="2"></textarea></td></tr>
-        <tr><td><input type="text" id="date-2" value="6월 14일"></td><td><textarea id="edit-2" rows="2"></textarea></td></tr>
-        <tr><td><input type="text" id="date-3" value="6월 15일"></td><td><textarea id="edit-3" rows="2"></textarea></td></tr>
-        <tr><td><input type="text" id="date-4" value="6월 16일"></td><td><textarea id="edit-4" rows="2"></textarea></td></tr>
-
-        <!-- 이후 일정 -->
-        <tr>
-          <td><strong>이후 일정</strong></td>
-          <td><textarea id="edit-extra" rows="3" placeholder="6월 17일 이후 일정 입력"></textarea></td>
-        </tr>
+        <tr><td><input type="text" id="date-0" value="6월 12일" /></td><td><textarea id="edit-0" rows="2"></textarea></td></tr>
+        <tr><td><input type="text" id="date-1" value="6월 13일" /></td><td><textarea id="edit-1" rows="2"></textarea></td></tr>
+        <tr><td><input type="text" id="date-2" value="6월 14일" /></td><td><textarea id="edit-2" rows="2"></textarea></td></tr>
+        <tr><td><input type="text" id="date-3" value="6월 15일" /></td><td><textarea id="edit-3" rows="2"></textarea></td></tr>
+        <tr><td><input type="text" id="date-4" value="6월 16일" /></td><td><textarea id="edit-4" rows="2"></textarea></td></tr>
+        <tr><td><strong>이후 일정</strong></td><td><textarea id="edit-extra" rows="3" placeholder="6월 17일 이후 일정 입력"></textarea></td></tr>
       </tbody>
     </table>
     <br>
@@ -129,7 +116,6 @@
       { date: "6월 15일", content: "" },
       { date: "6월 16일", content: "" }
     ];
-
     let extraSchedule = "";
 
     function renderDisplay() {
@@ -148,7 +134,14 @@
       });
 
       // 이후 일정
-      document.getElementById("display-extra").innerText = extraSchedule || "내용 없음";
+      const block = document.createElement("div");
+      block.className = "schedule-block";
+      block.innerHTML = `
+        <strong>이후 일정</strong>
+        <button class="toggle-button" onclick="toggleDisplay('extra')">▶</button>
+        <div class="content" id="display-extra">${extraSchedule || "내용 없음"}</div>
+      `;
+      section.appendChild(block);
     }
 
     function toggleDisplay(index) {
